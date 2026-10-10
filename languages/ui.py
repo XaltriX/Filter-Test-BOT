@@ -4,7 +4,7 @@ import random
 from pyrogram import enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from info import ADMINS, PICS, UPDATE_CHNL_LNK
+from info import ADMINS, PICS, UPDATE_CHNL_LNK, SUPPORT_CHAT, NEW_BRAND
 from utils import temp
 from languages import LANGS, btn, greeting, tr
 
@@ -24,7 +24,8 @@ def start_markup(lang, user_id):
 
 
 def start_text(lang, user):
-    return tr("start_txt", lang, name=user.mention, greet=greeting(lang), updates=UPDATE_CHNL_LNK)
+    return tr("start_txt", lang, name=user.mention, greet=greeting(lang), updates=UPDATE_CHNL_LNK,
+              support=SUPPORT_CHAT, brand=f"https://t.me/{NEW_BRAND}")
 
 
 def lang_picker_markup():

@@ -64,7 +64,13 @@ async def _main_page(client):
         "<i>Tap a button to toggle. Saved in the database.</i>"
     )
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("⚙️ Settings (Limits • Verify)", callback_data="adc#home")],
+        [InlineKeyboardButton("📊 Stats", callback_data="adx#stats"),
+         InlineKeyboardButton("🔍 Top missing", callback_data="adx#missing")],
+        [InlineKeyboardButton("⚙️ Settings", callback_data="adc#home"),
+         InlineKeyboardButton("💎 Premium", callback_data="adp#home")],
+        [InlineKeyboardButton("📢 Broadcast", callback_data="adx#bcast"),
+         InlineKeyboardButton("📡 Force-Sub", callback_data="adx#fsub")],
+        [InlineKeyboardButton("🔤 Search aliases", callback_data="adx#alias")],
         [InlineKeyboardButton(f"🔎 PM Search: {_onoff(pm)}", callback_data="adm#t#pm")],
         [InlineKeyboardButton(f"🎬 Movie Update: {_onoff(mu)}", callback_data="adm#t#mu")],
         [InlineKeyboardButton("⚙️ Group settings (ALL groups)", callback_data="adm#g")],

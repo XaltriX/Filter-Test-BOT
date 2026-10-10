@@ -1,5 +1,6 @@
 from pyrogram.errors import MessageNotModified
 from utils import get_size, is_subscribed, is_req_subscribed, group_setting_buttons, get_poster, temp, get_settings, get_time, save_group_settings, get_cap, imdb, is_check_admin, extract_request_content, log_error, clean_filename, generate_season_variations, clean_search_text, extract_caption_meta, brand_clean
+import botcfg
 import tracemalloc
 from rapidfuzz import process, fuzz
 from urllib.parse import quote_plus
@@ -27,7 +28,7 @@ from datetime import datetime, timedelta
 lock = asyncio.Lock()
 
 # callbacks owned by other plugins: this catch-all handler must not touch / answer them
-EXTERNAL_CB_PREFIXES = ("adm#", "adc#", "adp#", "pr#", "vf#", "setlang#", "lang_menu")
+EXTERNAL_CB_PREFIXES = ("adm#", "adc#", "adp#", "adx#", "pr#", "vf#", "setlang#", "lang_menu")
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
@@ -1186,7 +1187,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             btn = []
             chat = file_id.split("_")[0]
             settings = await get_settings(chat)
-            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS)) 
+            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS + botcfg.get('fsub_channels'))) 
             btn += await is_subscribed(client, query.from_user.id, fsub_channels)
             btn += await is_req_subscribed(client, query.from_user.id, AUTH_REQ_CHANNELS)
             if btn:
@@ -1538,7 +1539,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton(lbtn("btn_back_home", lang), callback_data='start')
         ]]
         await query.message.edit_text(
-            text=tr("about_txt", lang, bot_user=temp.U_NAME, bot_name=temp.B_NAME, owner=OWNER_LNK),
+            text=tr("about_txt", lang, bot_user=temp.U_NAME, bot_name=temp.B_NAME, owner=OWNER_LNK,
+                     support=SUPPORT_CHAT, brand=f"https://t.me/{NEW_BRAND}"),
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
             parse_mode=enums.ParseMode.HTML
@@ -1868,6 +1870,8 @@ async def auto_filter(client, msg, spoll=False):
             # PART 3: DATABASE SEARCH & SPELL CHECK (Files dhoondna aur spelling janchalna)
             # -------------------------------------------------------------------------
             m = await message.reply_text(f'**•『 🔍 ɪ ᴀᴍ ꜱᴇᴀʀᴄʜɪɴɢ 』•** `{search}`', reply_to_message_id=message.id)
+            import stats
+            search = await stats.apply_alias(search)
             files, offset, total_results = await get_search_results(message.chat.id, search, offset=0, filter=True)
             settings = await get_settings(message.chat.id)
             
@@ -2086,6 +2090,8 @@ async def old_auto_filter(client, msg, spoll=False):
             # 🔥 REMOVE SYMBOLS
             search = re.sub(r"[!@#$%^*()_+=\[\]{};\"<>?/\\|]", "", search)
             search = re.sub(r"\s+", " ", search).strip()
+            import stats
+            search = await stats.apply_alias(search)
             files, offset, total_results = await get_search_results(message.chat.id, search, offset=0, filter=True)
             settings = await get_settings(message.chat.id)
             if not files:
@@ -2475,6 +2481,11 @@ async def ai_spell_check(chat_id, wrong_name):
 
 async def advantage_spell_chok(client, message):
     search = message.text
+    try:
+        import stats
+        await stats.record_missing(search, message.from_user.id if message.from_user else None)
+    except Exception:
+        pass
     query = re.sub(
         r"(?:"
         r"\bpl(i|e)*?(s|z+|ease|se|ese|(e+)s(e+)?)\b|"

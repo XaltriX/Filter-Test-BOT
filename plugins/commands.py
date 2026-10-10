@@ -1,4 +1,5 @@
 import os
+import botcfg
 import re, sys
 import json
 import base64
@@ -114,7 +115,7 @@ async def start(client, message):
             btn = []
             chat = grp_id
             settings      = await get_settings(chat)
-            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS)) 
+            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS + botcfg.get('fsub_channels'))) 
 
             if fsub_channels:
                 btn += await is_subscribed(client, message.from_user.id, fsub_channels)

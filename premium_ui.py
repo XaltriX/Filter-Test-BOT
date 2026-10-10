@@ -40,7 +40,7 @@ def plan_by_id(pid):
 
 def plan_label(p, lang):
     badge = f"{p['badge']} " if p.get("badge") else ""
-    return f"{badge}{fmt_dur(p['days'], lang)} • ₹{p['price']}"
+    return f"{badge}{fmt_dur(p['days'], lang)} ₹{p['price']}"
 
 
 def pay_methods():

@@ -121,6 +121,11 @@ async def deliver(client, user_id, items, lang, policy):
 
     if policy["free"]:
         await db.increase_download(user_id, len(sent))
+    try:
+        import stats
+        await stats.bump_downloads(len(sent))
+    except Exception:
+        pass
     try:   # refer & earn: the referred user's first received file counts for the referrer
         import payments
         await payments.refer_qualify(client, user_id)

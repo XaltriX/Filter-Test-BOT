@@ -33,6 +33,7 @@ DEFAULTS = {
         {"id": "upi0", "type": "upi", "value": OWNER_UPI_ID, "on": True},
         {"id": "qr0",  "type": "qr",  "value": QR_CODE,       "on": True},
     ],
+    "fsub_channels": [],              # extra force-sub channel ids (added from /admin)
     "refer_on": True,
     "refer_need": 2,                  # qualified friends needed for one reward
     "refer_days": 1,                  # premium days per reward

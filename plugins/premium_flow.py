@@ -171,7 +171,8 @@ async def screenshot(client, message):
         return                                       # normal file/photo -> other handlers
     lang = await get_lang(uid)
     if not awaiting:                                 # already has one under review
-        await message.reply_text(tr("ss_pending_exists", lang), parse_mode=HTML)
+        await message.reply_text(tr("ss_pending_exists", lang), parse_mode=HTML,
+                                 reply_markup=M([[B(btn("btn_contact_admin", lang), url=OWNER_LNK)]]))
         raise StopPropagation
     if message.photo:
         media = message.photo
@@ -208,7 +209,8 @@ async def screenshot(client, message):
         await message.reply_text(tr("no_pay_method", lang), parse_mode=HTML)
         raise StopPropagation
     await payments.req_col.update_one({"rid": doc["rid"]}, {"$set": {"admin_msgs": sent}})
-    await message.reply_text(tr("ss_received", lang), parse_mode=HTML)
+    await message.reply_text(tr("ss_received", lang) + "\n\n" + tr("ss_doubt", lang), parse_mode=HTML,
+                             reply_markup=M([[B(btn("btn_contact_admin", lang), url=OWNER_LNK)]]))
     raise StopPropagation
 
 
