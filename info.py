@@ -63,8 +63,8 @@ auth_channels     = environ.get("AUTH_CHANNELS", "-1001980994910")# Channels for
 # ============================
 # Payment Configuration
 # ============================
-QR_CODE = environ.get('QR_CODE', 'https://i.ibb.co/9HJ50rMT/photo-2025-12-28-12-28-36-7588884758772318224.jpg')    # QR code image for payments
-OWNER_UPI_ID = environ.get('OWNER_UPI_ID', 'kunaljaisinghpurt')    # Owner UPI ID for payments
+QR_CODE = environ.get('QR_CODE', 'https://files.catbox.moe/2qdo4w.png')    # QR code image for payments
+OWNER_UPI_ID = environ.get('OWNER_UPI_ID', 'kunaljaisinghpur@ybl')    # Owner UPI ID for payments
 
 STAR_PREMIUM_PLANS = {
     10: "7day",
@@ -77,7 +77,7 @@ STAR_PREMIUM_PLANS = {
 # ============================
 # MongoDB Configuration
 # ============================
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Cluster0:Cluster0@cluster0.c07xkuf.mongodb.net/?")  # MongoDB URI for the database
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://VishnuJs:sfphtBLg@cluster0.lku9w7d.mongodb.net/?appName=Cluster0")  # MongoDB URI for the database
 DATABASE_NAME = environ.get('DATABASE_NAME', "newbot") # Database name (default: cluster)
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegraam_files') # Collection name (default: dreamcinezone_files)
 
