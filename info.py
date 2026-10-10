@@ -77,12 +77,12 @@ STAR_PREMIUM_PLANS = {
 # ============================
 # MongoDB Configuration
 # ============================
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Cluster0:Cluster0@cluster0.c07xkuf.mongodb.net/?")  # MongoDB URI for the database
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://VishnuJs:sfphtBLg@cluster0.lku9w7d.mongodb.net/?appName=Cluster0")  # MongoDB URI for the database
 DATABASE_NAME = environ.get('DATABASE_NAME', "newbot") # Database name (default: cluster)
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegraam_files') # Collection name (default: dreamcinezone_files)
 
 # If MULTIPLE_DB Is True Then Fill DATABASE_URI2 (and optionally URI3/4/5) Value Else You Will Get Error.
-MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "True"), False) # Type True For Turn On MULTIPLE DB FUNTION 
+MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "False"), False) # Type True For Turn On MULTIPLE DB FUNTION 
 DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://Renamer:ZenitsuBot@cluster0.wxgxdz9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # MongoDB URI for the 2nd database (if MULTIPLE_DB is True)
 DATABASE_URI3 = environ.get('DATABASE_URI3', "")  # MongoDB URI for the 3rd database (optional, MULTIPLE_DB True)
 DATABASE_URI4 = environ.get('DATABASE_URI4', "")  # MongoDB URI for the 4th database (optional, MULTIPLE_DB True)
