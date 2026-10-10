@@ -250,7 +250,7 @@ class Database:
         is_premium = False
         if user_data:
             expiry_time = user_data.get("expiry_time")
-            if isinstance(expiry_time, datetime.datetime) and now <= expiry_time:
+            if isinstance(expiry_time, datetime.datetime) and datetime.datetime.utcnow() <= (expiry_time.replace(tzinfo=None) if expiry_time.tzinfo is None else expiry_time.astimezone(pytz.utc).replace(tzinfo=None)):
                 is_premium = True
             elif expiry_time is not None:
                 await self.users.update_one({"id": user_id}, {"$set": {"expiry_time": None}})

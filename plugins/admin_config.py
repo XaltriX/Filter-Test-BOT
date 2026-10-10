@@ -42,9 +42,12 @@ async def _edit(msg, text, kb):
 def _home():
     text = ("<b>⚙️ BOT SETTINGS</b>\n\n"
             "<b>📦 Limits</b> — daily files, auto-delete, forward lock\n"
-            "<b>🔓 Verification</b> — shorteners, access hours\n\n"
+            "<b>🔓 Verification</b> — shorteners, access hours\n"
+            "<b>💎 Premium</b> — plans, payment, pending\n"
+            "<b>🫂 Refer</b> — refer & earn rules\n\n"
             "<b>Choose a section 👇</b>")
     kb = M([[B("📦 Limits", callback_data="adc#lim"), B("🔓 Verification", callback_data="adc#ver")],
+            [B("💎 Premium", callback_data="adp#home"), B("🫂 Refer", callback_data="adp#ref")],
             [B("⬅️ Back", callback_data="adm#home"), B("❌ Close", callback_data="adm#close")]])
     return text, kb
 
@@ -129,6 +132,10 @@ async def adc_cb(client, query):
     act = p[1]
     arg = p[2] if len(p) > 2 else None
     msg = query.message
+    import sys
+    _ap = sys.modules.get('plugins.admin_premium')
+    if _ap:
+        _ap.PENDING.pop(uid, None)
 
     if act in ("home", "lim", "ver"):
         PENDING.pop(uid, None)

@@ -16,6 +16,7 @@ from info import *
 from utils import temp
 import botcfg
 from deleter import delete_loop
+import payments
 from Script import script
 from plugins import web_server, check_expired_premium, keep_alive
 from dreamxbotz.Bot import dreamxbotz
@@ -117,7 +118,8 @@ async def dreamxbotz_start():
         logging.warning(f'pdel index: {e}')
     dreamxbotz.loop.create_task(delete_loop(dreamxbotz))
     dreamxbotz.username = '@' + me.username
-    dreamxbotz.loop.create_task(check_expired_premium(dreamxbotz))
+    await payments.ensure_indexes()
+    dreamxbotz.loop.create_task(payments.premium_loop(dreamxbotz))
     logging.info(f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
     logging.info(LOG_STR)
     logging.info(script.LOGO)

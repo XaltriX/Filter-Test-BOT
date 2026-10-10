@@ -5,7 +5,7 @@ Runtime settings editable from /admin (saved in MongoDB, cached in memory).
 Plain module (not a plugin) so there is exactly ONE shared cache.
 """
 import copy
-from info import DELETE_TIME
+from info import DELETE_TIME, OWNER_UPI_ID, QR_CODE
 
 CFG_ID = -1   # document id in the bot_settings collection
 
@@ -20,6 +20,22 @@ DEFAULTS = {
     "verify_hours": 3,                # access after one verification
     "verify_min_seconds": 20,         # faster than this = bypass attempt
     "shorteners": [],                 # [{id, site, api, tutorial, on}]
+    "premium_on": True,               # False = Premium button shows "not available"
+    "plans": [                        # days, price (INR), on, badge
+        {"id": "p7",   "days": 7,   "price": 29,  "on": True, "badge": ""},
+        {"id": "p15",  "days": 15,  "price": 45,  "on": True, "badge": ""},
+        {"id": "p30",  "days": 30,  "price": 59,  "on": True, "badge": ""},
+        {"id": "p90",  "days": 90,  "price": 149, "on": True, "badge": "🔥"},
+        {"id": "p180", "days": 180, "price": 269, "on": True, "badge": ""},
+        {"id": "p365", "days": 365, "price": 449, "on": True, "badge": "👑"},
+    ],
+    "pay_methods": [                  # type: upi (value = UPI id) | qr (value = photo file_id or image URL)
+        {"id": "upi0", "type": "upi", "value": OWNER_UPI_ID, "on": True},
+        {"id": "qr0",  "type": "qr",  "value": QR_CODE,       "on": True},
+    ],
+    "refer_on": True,
+    "refer_need": 2,                  # qualified friends needed for one reward
+    "refer_days": 1,                  # premium days per reward
 }
 
 _cfg = {}

@@ -121,6 +121,11 @@ async def deliver(client, user_id, items, lang, policy):
 
     if policy["free"]:
         await db.increase_download(user_id, len(sent))
+    try:   # refer & earn: the referred user's first received file counts for the referrer
+        import payments
+        await payments.refer_qualify(client, user_id)
+    except Exception as e:
+        logger.debug(f"refer qualify: {e}")
 
     # one notice per delivery (shortest time = the one the user must care about)
     first = min(range(len(sent)), key=lambda i: delays[i])
